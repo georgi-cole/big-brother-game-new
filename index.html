@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Brother Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="hotfix.css">
+</head>
+<body class="layout-normal">
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <div class="sidebar sidebar-left" id="leftSidebar">
+            <div class="sidebar-content">
+                <h3>Game Settings</h3>
+                <div class="settings-panel">
+                    <label for="playerCount">Number of Players:</label>
+                    <select id="playerCount">
+                        <option value="8">8 Players</option>
+                        <option value="10">10 Players</option>
+                        <option value="12" selected>12 Players</option>
+                        <option value="14">14 Players</option>
+                        <option value="16">16 Players</option>
+                    </select>
+                    
+                    <button id="restartBtn" class="btn">Restart Game</button>
+                    <button id="newGameBtn" class="btn">New Game</button>
+                </div>
+                
+                <div class="tv-bg-controls">
+                    <h4>TV Background</h4>
+                    <input type="file" id="bgImageInput" accept="image/*">
+                    <button id="clearBgBtn" class="btn-small">Clear Background</button>
+                    <button id="videoModeBtn" class="btn-small">Video Mode</button>
+                </div>
+                
+                <div class="sidebar-toggle">
+                    <button id="toggleLeftSidebar" class="btn-small">Hide Left</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main TV Area -->
+        <div class="tv-container">
+            <div class="tv" id="tv">
+                <!-- Legacy background support -->
+                <div id="tvBg" class="tvBgImg"></div>
+                
+                <!-- Video background support -->
+                <video id="tvBgVideo" class="tv-bg-video" loop muted></video>
+                
+                <!-- TV Screen Content -->
+                <div class="tv-screen">
+                    <div class="tv-content">
+                        <h1>Big Brother Game</h1>
+                        <div id="gameStatus" class="game-status">
+                            <p>Week <span id="currentWeek">1</span> - <span id="playersRemaining">12</span> players remaining</p>
+                        </div>
+                        
+                        <!-- Confetti Effect -->
+                        <div id="confetti" class="confetti-container"></div>
+                    </div>
+                </div>
+                
+                <!-- TV Overlay Effects -->
+                <div id="tvOverlay" class="tv-overlay">
+                    <div class="scanlines"></div>
+                    <div class="tvNoise"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="sidebar sidebar-right" id="rightSidebar">
+            <div class="sidebar-content">
+                <h3>Player State</h3>
+                <div class="player-state scroll-pane">
+                    <div id="playerStateList" class="state-panel">
+                        <!-- Player state items will be populated by JS -->
+                    </div>
+                </div>
+                
+                <div class="sidebar-toggle">
+                    <button id="toggleRightSidebar" class="btn-small">Hide Right</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cast Section -->
+    <div class="cast-section">
+        <h2>Cast Members</h2>
+        <div id="castTblWrap" class="cast-table-wrapper">
+            <table id="castTbl" class="cast-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Status</th>
+                        <th>HOH Wins</th>
+                        <th>Veto Wins</th>
+                        <th>Nominations</th>
+                        <th class="evict-week-col">Evict Wk</th>
+                    </tr>
+                </thead>
+                <tbody id="castTableBody">
+                    <!-- Cast members will be populated by JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

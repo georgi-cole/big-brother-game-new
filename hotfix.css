@@ -1,0 +1,239 @@
+/* Big Brother Game Hotfixes - Targeted fixes for broken behaviors */
+
+/* 1. Layout expansion toggles - Re-introduce body layout classes */
+body.layout-no-right .main-container {
+    grid-template-columns: 250px 1fr 0px;
+}
+
+body.layout-no-right .sidebar-right {
+    display: none;
+}
+
+body.layout-no-left .main-container {
+    grid-template-columns: 0px 1fr 250px;
+}
+
+body.layout-no-left .sidebar-left {
+    display: none;
+}
+
+body.layout-no-right.layout-no-left .main-container {
+    grid-template-columns: 0px 1fr 0px;
+}
+
+body.layout-no-right.layout-no-left .sidebar-left,
+body.layout-no-right.layout-no-left .sidebar-right {
+    display: none;
+}
+
+/* When sidebars are hidden, expand TV area and increase height */
+body.layout-no-right .main-container,
+body.layout-no-left .main-container,
+body.layout-no-right.layout-no-left .main-container {
+    height: 75vh; /* Increased height when sidebar hidden */
+}
+
+body.layout-no-right .tv,
+body.layout-no-left .tv,
+body.layout-no-right.layout-no-left .tv {
+    max-width: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px; /* Keep rounded corners */
+}
+
+/* 2. Cast table visibility + overflow fixes */
+#castTblWrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 5px;
+}
+
+#castTbl {
+    min-width: 860px; /* Ensure all columns remain visible */
+}
+
+/* Center-align and clamp width of Evict Wk column */
+.evict-week-col {
+    width: 80px !important;
+    min-width: 80px !important;
+    max-width: 80px !important;
+    text-align: center !important;
+}
+
+.cast-table td.evict-week-col {
+    text-align: center !important;
+    white-space: nowrap;
+}
+
+/* 3. Player state scrolling fixes */
+.player-state,
+.state-panel,
+.scroll-pane {
+    overflow: auto;
+    scrollbar-gutter: stable;
+    -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
+}
+
+.state-panel {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+/* 4. TV background z-index ordering fixes */
+.tv {
+    z-index: 1;
+}
+
+.tv::before,
+.tvBgImg,
+#tvBg,
+.tv-bg-video {
+    z-index: 1;
+}
+
+.tv-screen {
+    z-index: 2;
+}
+
+.tv-content {
+    z-index: 2;
+}
+
+.confetti-container {
+    z-index: 5; /* Below overlay but above background */
+}
+
+#tvOverlay {
+    z-index: 10; /* Above everything else */
+}
+
+/* 5. Legacy TV background element support within safe area */
+.tv .tvBgImg,
+.tv #tvBg {
+    position: absolute;
+    top: 20px; /* Safe area within rounded corners */
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tv .tvBgImg.active,
+.tv #tvBg.active {
+    opacity: 1;
+}
+
+/* Overlay effects within safe area */
+.tv .scanlines,
+.tv .tvNoise {
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border-radius: 10px;
+}
+
+/* 6. Responsive improvements for cast table */
+@media (max-width: 768px) {
+    .cast-section {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    #castTbl {
+        min-width: 700px; /* Slightly smaller on mobile but still scrollable */
+    }
+    
+    .evict-week-col {
+        width: 70px !important;
+        min-width: 70px !important;
+        max-width: 70px !important;
+    }
+}
+
+/* 7. Ensure scrollbars are visible when needed */
+.cast-table-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.cast-table-wrapper::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 4px;
+}
+
+.cast-table-wrapper::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 4px;
+}
+
+.cast-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
+.state-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.state-panel::-webkit-scrollbar-track {
+    background: #3a3a3a;
+    border-radius: 3px;
+}
+
+.state-panel::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 3px;
+}
+
+.state-panel::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
+/* 8. Improved sidebar toggle behavior */
+.sidebar-toggle {
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+/* 9. Better TV content positioning when background changes */
+.tv-content {
+    background: rgba(0, 0, 0, 0.4); /* Slightly more opaque for better readability */
+}
+
+.tv.hasTvBg .tv-content,
+.tv.hasTvVideo .tv-content {
+    background: rgba(0, 0, 0, 0.6); /* More opaque when background is active */
+}
+
+/* 10. Ensure consistent behavior across different background modes */
+.tv.hasTvBg::before {
+    opacity: 1;
+}
+
+.tv:not(.hasTvBg):not(.hasTvVideo) .tvBgImg.active,
+.tv:not(.hasTvBg):not(.hasTvVideo) #tvBg.active {
+    opacity: 1;
+}
+
+.tv.hasTvVideo .tv-bg-video {
+    opacity: 1;
+}
+
+/* Hide other background sources when one is active */
+.tv.hasTvVideo .tvBgImg,
+.tv.hasTvVideo #tvBg,
+.tv.hasTvVideo::before {
+    opacity: 0 !important;
+}
+
+.tv.hasTvBg .tvBgImg,
+.tv.hasTvBg #tvBg,
+.tv.hasTvBg .tv-bg-video {
+    opacity: 0 !important;
+}
